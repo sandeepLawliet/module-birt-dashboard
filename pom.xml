@@ -1,0 +1,158 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.stumps</groupId>
+  <parent>
+    <groupId>org.stumps</groupId>
+    <artifactId>stumps-base</artifactId> <!-- Hard core service | REMOVE COMMENT IN FINAL -->
+    <!-- <artifactId>stumps-web</artifactId> if your project needs to do web related stuff and depend on Servlet, Wicket APIs | REMOVE COMMENT IN FINAL  -->
+    <version>1.0</version>
+   <!--  <relativePath>../../poms/base</relativePath> --> <!-- Delete this if it causes a problem  | REMOVE COMMENT IN FINAL -->
+  </parent>
+  <artifactId>module-birt-dashboard</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>module-birt-dashboard</name>
+  <properties>
+		<stumps.version>1.0-SNAPSHOT</stumps.version>
+		<birt.version>4.4.1</birt.version>
+		<jettyVersion>9.2.0.RC0</jettyVersion>
+		 <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <build>
+    <finalName>module-birt-dashboard</finalName>
+    <plugins>
+   			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <compilerArguments>
+                        <endorseddirs>${endorsed.dir}</endorseddirs>
+                    </compilerArguments>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${endorsed.dir}</outputDirectory>
+                            <silent>true</silent>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>javax</groupId>
+                                    <artifactId>javaee-endorsed-api</artifactId>
+                                    <version>7.0</version>
+                                    <type>jar</type>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        
+     <plugin>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-maven-plugin</artifactId>
+            <version>${jettyVersion}</version>
+        </plugin>
+        
+     </plugins>
+  </build>
+
+  <dependencies>
+
+  <!-- Stumps level dependencies -->
+	<dependency>
+		<groupId>org.stumps</groupId>
+		<artifactId>stumps-domain</artifactId>
+		<version>${stumps.version}</version>
+		<scope>provided</scope>
+	</dependency>
+	
+  <!-- Explicit 3rd party dependencies for your module -->
+    <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>4.5.3</version>
+    </dependency>
+     <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <version>7.0</version>
+            <scope>provided</scope>
+        </dependency>
+    <dependency>
+	    <groupId>org.eclipse.birt.runtime</groupId>
+	    <artifactId>org.eclipse.birt.runtime</artifactId>
+	    <version>${birt.version}</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>javax.servlet</groupId>
+	    <artifactId>javax.servlet-api</artifactId>
+	    <version>3.0.1</version>
+	    <scope>provided</scope>
+	</dependency>
+	<dependency>
+    <groupId>com.orientechnologies</groupId>
+    <artifactId>orientdb-jdbc</artifactId>
+    <version>2.2.15</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/net.sf.proguard/proguard-base -->
+
+    
+  </dependencies>
+
+<!-- Refer to Stumps Repo to download parent -->
+<repositories>
+    <repository> <!-- ensure for non stumps related stuff first check default repo -->
+        <id>central</id>
+        <name>Central Repository</name>
+        <url>http://repo.maven.apache.org/maven2</url>
+        <layout>default</layout>
+        <snapshots>
+          <enabled>false</enabled>
+        </snapshots>
+      </repository>
+
+      <repository>
+        <id>spring-maven-release</id>
+        <name>Spring Maven Release Repository</name>
+        <url>http://maven.springframework.org/release</url>
+      </repository>
+
+      <repository>
+        <id>spring-maven-milestone</id>
+        <name>Spring Maven Milestone Repository</name>
+        <url>http://maven.springframework.org/milestone</url>
+      </repository>    
+
+      <repository>
+        <!-- Ensure the id is defined in settings.xml with your username/password in servers : server. https://maven.apache.org/settings.html -->
+        <id>stumps-server</id>
+        <name>Stumps LIB Repo</name>
+        <url>http://neurosys.biz/stumps/stumps-home/lib-repo</url>
+    </repository>
+</repositories>  
+
+</project>
